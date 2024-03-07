@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { deleteOrders, syncOrders } from '../reducers/OrderReducer';
+import { syncOrders } from '../reducers/OrderReducer';
 import { useDeleteOrdersOnDiscMutation, useGetOrdersQuery } from '../reducers/apiReducer';
 
 const useStyles = tss.create({
@@ -62,7 +62,7 @@ function TVTable() {
 
     const handleDeleteOrders = async () => {
         await deleteOrdersOnDisc(selectedOrders)
-            .then(() => dispatch(deleteOrders(selectedOrders)))
+            .then(() => { refetch() })
     };
 
     const filteredOrders = orders.filter(order =>

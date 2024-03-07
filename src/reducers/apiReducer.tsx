@@ -22,7 +22,7 @@ export const api = createApi({
             query: (order) => ({
                 url: `/api/Orders`,
                 method: 'PUT',
-                body: JSON.stringify(order)
+                body: order
             })
         }),
         postOrder: builder.mutation<OrderType, OrderType>({

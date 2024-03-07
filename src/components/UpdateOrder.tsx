@@ -52,12 +52,12 @@ function UpdateOrder() {
             createdDate: existingOrder.createdDate,
             createdByUserName: existingOrder.createdByUserName,
         }
-
+        console.log(payload)
         await putOrder(payload)
         .then(() =>
-            dispatch( updateOrder(payload))
+            dispatch(updateOrder(payload))
         )
-        
+
         navigate('/');
     };
 
