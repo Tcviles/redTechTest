@@ -1,10 +1,10 @@
 
-import { Button, Grid, Typography } from '@mui/material';
-import { tss } from 'tss-react';
-import { useNavigate } from 'react-router-dom';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { useSelector } from 'react-redux';
-import { StateType } from '../utils/types';
+import { Button, Grid, Typography } from '@mui/material'
+import { tss } from 'tss-react'
+import { useNavigate } from 'react-router-dom'
+import AccountCircleIcon from '@mui/icons-material/AccountCircle'
+import { useSelector } from 'react-redux'
+import { StateType } from '../utils/types'
 
 const useStyles = tss.create({
     tableHeader: {
@@ -27,7 +27,7 @@ const useStyles = tss.create({
 })
 
 function Header() {
-    const { classes } = useStyles();
+    const { classes } = useStyles()
     const navigate = useNavigate()
     const user = useSelector((state: StateType) => state.user)
     
@@ -45,7 +45,7 @@ function Header() {
                 </Button>
             </Grid>
         </Grid>
-    );
+    )
 }
 
-export default Header;
+export default Header

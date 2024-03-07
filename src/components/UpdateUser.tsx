@@ -1,9 +1,9 @@
-import { Button, Grid, TextField, Typography } from '@mui/material';
-import { tss } from 'tss-react';
-import { ChangeEvent, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { updateUser } from '../reducers/UserReducer';
-import { useNavigate } from 'react-router-dom';
+import { Button, Grid, TextField, Typography } from '@mui/material'
+import { tss } from 'tss-react'
+import { ChangeEvent, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { updateUser } from '../reducers/UserReducer'
+import { useNavigate } from 'react-router-dom'
 
 const useStyles = tss.create({
     container: {
@@ -15,27 +15,27 @@ const useStyles = tss.create({
     button: {
         marginLeft: '10px',
     },
-});
+})
 
 function Signin() {
-    const { classes } = useStyles();
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const [username, setUsername] = useState<string>('');
+    const { classes } = useStyles()
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const [username, setUsername] = useState<string>('')
 
     const handleUsernameChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setUsername(event.target.value);
-    };
+        setUsername(event.target.value)
+    }
 
     const handleSubmit = (event: ChangeEvent<HTMLFormElement>) => {
-        event.preventDefault();
+        event.preventDefault()
 
         dispatch(
             updateUser(username)
-        );
+        )
 
         navigate('/')
-    };
+    }
 
     return (
         <Grid container justifyContent="center" className={classes.container}>
@@ -54,7 +54,7 @@ function Signin() {
                 </Button>
             </form>
         </Grid>
-    );
+    )
 }
 
-export default Signin;
+export default Signin

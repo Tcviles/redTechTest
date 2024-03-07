@@ -1,7 +1,7 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { OrderType, OrderTypeEnum } from '../utils/types';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { OrderType, OrderTypeEnum } from '../utils/types'
 
-const apiKey = 'b7b77702-b4ec-4960-b3f7-7d40e44cf5f4';
+const apiKey = 'b7b77702-b4ec-4960-b3f7-7d40e44cf5f4'
 
 export const api = createApi({
     reducerPath: 'api',
@@ -46,7 +46,7 @@ export const api = createApi({
             })
         }),
     }),
-});
+})
 
 export const { 
     useGetOrdersQuery,
@@ -54,4 +54,4 @@ export const {
     usePutOrderMutation,
     useGetOrdersByTypeQuery,
     useDeleteOrdersOnDiscMutation
- } = api;
+ } = api

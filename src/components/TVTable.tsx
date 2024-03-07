@@ -1,14 +1,14 @@
-import { useEffect, useState } from 'react';
-import { Button, Checkbox, Grid, MenuItem, Select, Table, TableBody, TableCell, TableHead, TableRow, TextField, Typography } from '@mui/material';
-import { tss } from 'tss-react';
-import { useDispatch, useSelector } from 'react-redux';
-import { OrderType, OrderTypeEnum, StateType } from '../utils/types';
-import { useNavigate } from 'react-router-dom';
-import AddIcon from '@mui/icons-material/Add';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import { syncOrders } from '../reducers/OrderReducer';
-import { useDeleteOrdersOnDiscMutation, useGetOrdersQuery } from '../reducers/apiReducer';
+import { useEffect, useState } from 'react'
+import { Button, Checkbox, Grid, MenuItem, Select, Table, TableBody, TableCell, TableHead, TableRow, TextField, Typography } from '@mui/material'
+import { tss } from 'tss-react'
+import { useDispatch, useSelector } from 'react-redux'
+import { OrderType, OrderTypeEnum, StateType } from '../utils/types'
+import { useNavigate } from 'react-router-dom'
+import AddIcon from '@mui/icons-material/Add'
+import DeleteIcon from '@mui/icons-material/Delete'
+import EditIcon from '@mui/icons-material/Edit'
+import { syncOrders } from '../reducers/OrderReducer'
+import { useDeleteOrdersOnDiscMutation, useGetOrdersByTypeQuery, useGetOrdersQuery } from '../reducers/apiReducer'
 
 const useStyles = tss.create({
     table: {
@@ -31,13 +31,13 @@ const useStyles = tss.create({
 })
 
 function TVTable() {
-    const { classes } = useStyles();
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const orders = useSelector((state: StateType) => state.orders);
-    const [selectedOrders, setSelectedOrders] = useState<string[]>([]);
-    const [searchQuery, setSearchQuery] = useState<string>('');
-    const [orderTypeFilter, setOrderTypeFilter] = useState<string>('All Types');
+    const { classes } = useStyles()
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const orders = useSelector((state: StateType) => state.orders)
+    const [selectedOrders, setSelectedOrders] = useState<string[]>([])
+    const [searchQuery, setSearchQuery] = useState<string>('')
+    const [orderTypeFilter, setOrderTypeFilter] = useState<string>('All Types')
     const { data, isLoading, isError, refetch } = useGetOrdersQuery()
     const [deleteOrdersOnDisc] = useDeleteOrdersOnDiscMutation()
 
@@ -48,11 +48,11 @@ function TVTable() {
 
     const handleCheckboxChange = (orderId: string) => {
         if (selectedOrders.includes(orderId)) {
-            setSelectedOrders(selectedOrders.filter(id => id !== orderId));
+            setSelectedOrders(selectedOrders.filter(id => id !== orderId))
         } else {
-            setSelectedOrders([...selectedOrders, orderId]);
+            setSelectedOrders([...selectedOrders, orderId])
         }
-    };
+    }
 
     useEffect(() => {
         if (data && !isLoading && !isError) {
@@ -63,7 +63,7 @@ function TVTable() {
     const handleDeleteOrders = async () => {
         await deleteOrdersOnDisc(selectedOrders)
             .then(() => { refetch() })
-    };
+    }
 
     const filteredOrders = orders.filter(order =>
         (order.orderId.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -73,7 +73,7 @@ function TVTable() {
 
         &&
         (orderTypeFilter === 'All Types' || order.orderType === orderTypeFilter)
-    );
+    )
 
     return (
         <div>
@@ -142,7 +142,7 @@ function TVTable() {
                 </Table>
             </Grid>
         </div>
-    );
+    )
 }
 
-export default TVTable;
+export default TVTable

@@ -1,11 +1,11 @@
-import { Button, Grid, MenuItem, TextField, Typography } from '@mui/material';
-import { tss } from 'tss-react';
-import { ChangeEvent, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { addOrder } from '../reducers/OrderReducer';
-import { StateType, OrderType, OrderTypeEnum, UserType } from '../utils/types';
-import { useNavigate } from 'react-router-dom';
-import { usePostOrderMutation } from '../reducers/apiReducer';
+import { Button, Grid, MenuItem, TextField, Typography } from '@mui/material'
+import { tss } from 'tss-react'
+import { ChangeEvent, useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { addOrder } from '../reducers/OrderReducer'
+import { StateType, OrderType, OrderTypeEnum, UserType } from '../utils/types'
+import { useNavigate } from 'react-router-dom'
+import { usePostOrderMutation } from '../reducers/apiReducer'
 
 const useStyles = tss.create({
     container: {
@@ -17,27 +17,27 @@ const useStyles = tss.create({
     button: {
         marginLeft: '10px',
     },
-});
+})
 
 function CreateOrder() {
-    const { classes } = useStyles();
+    const { classes } = useStyles()
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const user = useSelector((state: StateType) => state.user) as UserType
-    const [customer, setCustomer] = useState<string>('');
-    const [orderType, setOrderType] = useState<OrderTypeEnum>(OrderTypeEnum.Standard);
+    const [customer, setCustomer] = useState<string>('')
+    const [orderType, setOrderType] = useState<OrderTypeEnum>(OrderTypeEnum.Standard)
     const [postOrder] = usePostOrderMutation()
 
     const handleCustomerChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setCustomer(event.target.value);
-    };
+        setCustomer(event.target.value)
+    }
 
     const handleOrderTypeChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setOrderType(event.target.value as OrderTypeEnum);
-    };
+        setOrderType(event.target.value as OrderTypeEnum)
+    }
 
     const handleSubmit = async (event: ChangeEvent<HTMLFormElement>) => {
-        event.preventDefault();
+        event.preventDefault()
         const payload = {
             orderId: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
             orderType,
@@ -54,7 +54,7 @@ function CreateOrder() {
             .catch((e: any) => {
                 console.error(e.body)
             })
-    };
+    }
 
     useEffect(() => {
         if(user.Name === "Guest") {
@@ -94,7 +94,7 @@ function CreateOrder() {
                 </Button>
             </form>
         </Grid>
-    );
+    )
 }
 
-export default CreateOrder;
+export default CreateOrder
