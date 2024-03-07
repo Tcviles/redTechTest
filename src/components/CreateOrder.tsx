@@ -17,9 +17,6 @@ const useStyles = tss.create({
     button: {
         marginLeft: '10px',
     },
-    spinner: {
-        marginLeft: '10px',
-    },
 })
 
 function CreateOrder() {
@@ -73,7 +70,7 @@ function CreateOrder() {
     if (isLoading) {
         return (
             <Grid container justifyContent={"center"}>
-                <CircularProgress className={classes.spinner} />
+                <CircularProgress />
             </Grid>
         )
     }
