@@ -3,7 +3,7 @@ import { tss } from 'tss-react';
 import { ChangeEvent, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addOrder } from '../reducers/OrderReducer';
-import { StateType, OrderType, OrderTypeEnum } from '../utils/types';
+import { StateType, OrderType, OrderTypeEnum, UserType } from '../utils/types';
 import { useNavigate } from 'react-router-dom';
 
 const useStyles = tss.create({
@@ -23,9 +23,9 @@ function CreateOrder() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const orders = useSelector((state: StateType) => state.orders) as OrderType[]
+    const user = useSelector((state: StateType) => state.user) as UserType
     const [customer, setCustomer] = useState<string>('');
     const [orderType, setOrderType] = useState<OrderTypeEnum>(OrderTypeEnum.Standard);
-    const [createdBy, setCreatedBy] = useState<string>('');
 
     const createOrderId = (): string => {
         const characters = '0123456789abcdef';
@@ -54,10 +54,6 @@ function CreateOrder() {
         setOrderType(event.target.value as OrderTypeEnum);
     };
 
-    const handleCreatedByChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setCreatedBy(event.target.value);
-    };
-
     const handleSubmit = (event: ChangeEvent<HTMLFormElement>) => {
         event.preventDefault();
 
@@ -67,7 +63,7 @@ function CreateOrder() {
                 CustomerName: customer,
                 Type: orderType,
                 CreatedDate: Date.now(),
-                CreatedByUsername: createdBy,
+                CreatedByUsername: user.Name,
             })
         );
 
@@ -101,14 +97,6 @@ function CreateOrder() {
                         </MenuItem>
                     ))}
                 </TextField>
-                <TextField
-                    label="Created By"
-                    variant="outlined"
-                    fullWidth
-                    value={createdBy}
-                    onChange={handleCreatedByChange}
-                    margin="normal"
-                />
                 <Button type="submit" variant="contained" color="primary" className={classes.button}>
                     Submit
                 </Button>

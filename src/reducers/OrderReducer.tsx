@@ -16,15 +16,17 @@ const orderSlice = createSlice({
                 state[index] = action.payload;
             }
         },
-        deleteOrder: (state, action: PayloadAction<string>) => {
-            const idToDelete = action.payload;
-            const index = state.findIndex(order => order.Id === idToDelete);
-            if (index !== -1) {
-                state.splice(index, 1);
-            }
+        deleteOrders: (state, action: PayloadAction<string[]>) => {
+            const idsToDelete = action.payload;
+            idsToDelete.forEach(id => {
+                const index = state.findIndex(order => order.Id === id);
+                if (index !== -1) {
+                    state.splice(index, 1);
+                }
+            });
         }
     }
 })
 
-export const{ addOrder, updateOrder, deleteOrder } = orderSlice.actions
+export const{ addOrder, updateOrder, deleteOrders } = orderSlice.actions
 export default orderSlice.reducer;
