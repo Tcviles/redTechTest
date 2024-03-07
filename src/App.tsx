@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import CreateOrder from './components/CreateOrder';
 import Header from './components/Header';
 import UpdateUser from './components/UpdateUser';
+import UpdateOrder from './components/UpdateOrder';
 
 const useStyles = tss.create({
   content: {
@@ -31,6 +32,7 @@ function App() {
             <Route path='/' element={<TVTable />} />
             <Route path='/create' element={<CreateOrder />} />
             <Route path='/signin' element={<UpdateUser />} />
+            <Route path='/update/:orderId' element={<UpdateOrder />} />
             </Routes>
         </Container>
       </BrowserRouter>

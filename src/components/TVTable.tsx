@@ -6,6 +6,7 @@ import { OrderType, StateType } from '../utils/types'
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { deleteOrders } from '../reducers/OrderReducer';
+import EditIcon from '@mui/icons-material/Edit';
 
 const useStyles = tss.create({
     table: {
@@ -71,11 +72,15 @@ function TVTable() {
                                     />
                                 </TableCell>
                                 <TableCell>{order.Id}</TableCell>
-                                <TableCell>{order.CreatedDate}</TableCell>
+                                <TableCell>{new Date(order.CreatedDate).toLocaleDateString()}</TableCell>
                                 <TableCell>{order.CreatedByUsername}</TableCell>
                                 <TableCell>{order.Type}</TableCell>
                                 <TableCell>{order.CustomerName}</TableCell>
-                                <TableCell><Button>Edit</Button></TableCell>
+                                <TableCell>
+                                    <Button onClick={() => navigate(`/update/${order.Id}`)}>
+                                        <EditIcon />
+                                    </Button>
+                                </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
