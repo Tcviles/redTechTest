@@ -10,8 +10,8 @@ const orderSlice = createSlice({
             state.push(action.payload)
         },
         updateOrder: (state, action: PayloadAction<OrderType>) => {
-            const { Id } = action.payload;
-            const index = state.findIndex(order => order.Id === Id);
+            const { orderId } = action.payload;
+            const index = state.findIndex(order => order.orderId === orderId);
             if (index !== -1) {
                 state[index] = action.payload;
             }
@@ -19,7 +19,7 @@ const orderSlice = createSlice({
         deleteOrders: (state, action: PayloadAction<string[]>) => {
             const idsToDelete = action.payload;
             idsToDelete.forEach(id => {
-                const index = state.findIndex(order => order.Id === id);
+                const index = state.findIndex(order => order.orderId === id);
                 if (index !== -1) {
                     state.splice(index, 1);
                 }

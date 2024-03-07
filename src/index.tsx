@@ -7,13 +7,17 @@ import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import OrderReducer from './reducers/OrderReducer';
 import UserReducer from './reducers/UserReducer';
+import { api } from './reducers/apiReducer'
 
 const store = configureStore({
   reducer:{
     orders: OrderReducer,
-    user: UserReducer
-  }
-})
+    user: UserReducer,
+    api: api.reducer
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(api.middleware),
+});
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

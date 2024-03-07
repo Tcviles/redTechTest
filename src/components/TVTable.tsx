@@ -8,6 +8,7 @@ import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { deleteOrders } from '../reducers/OrderReducer';
+import { useGetOrdersQuery } from '../reducers/apiReducer';
 
 const useStyles = tss.create({
     table: {
@@ -37,6 +38,9 @@ function TVTable() {
     const [selectedOrders, setSelectedOrders] = useState<string[]>([]);
     const [searchQuery, setSearchQuery] = useState<string>('');
     const [orderTypeFilter, setOrderTypeFilter] = useState<string>('All Types');
+    const { data, isLoading, isError } = useGetOrdersQuery()
+
+    console.log(data)
 
     const handleCheckboxChange = (orderId: string) => {
         if (selectedOrders.includes(orderId)) {
@@ -51,13 +55,13 @@ function TVTable() {
     };
 
     const filteredOrders = orders.filter(order =>
-        (order.Id.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        order.CreatedByUsername.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        order.Type.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        order.CustomerName.toLowerCase().includes(searchQuery.toLowerCase()))
+        (order.orderId.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        order.createdByUserName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        order.orderType.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        order.customerName.toLowerCase().includes(searchQuery.toLowerCase()))
 
         &&
-        (orderTypeFilter === 'All Types' || order.Type === orderTypeFilter)
+        (orderTypeFilter === 'All Types' || order.orderType === orderTypeFilter)
     );
 
     return (
@@ -107,17 +111,17 @@ function TVTable() {
                             <TableRow key={index}>
                                 <TableCell>
                                     <Checkbox
-                                        checked={selectedOrders.includes(order.Id)}
-                                        onChange={() => handleCheckboxChange(order.Id)}
+                                        checked={selectedOrders.includes(order.orderId)}
+                                        onChange={() => handleCheckboxChange(order.orderId)}
                                     />
                                 </TableCell>
-                                <TableCell>{order.Id}</TableCell>
-                                <TableCell>{new Date(order.CreatedDate).toLocaleDateString()}</TableCell>
-                                <TableCell>{order.CreatedByUsername}</TableCell>
-                                <TableCell>{order.Type}</TableCell>
-                                <TableCell>{order.CustomerName}</TableCell>
+                                <TableCell>{order.orderId}</TableCell>
+                                <TableCell>{order.createdDate}</TableCell>
+                                <TableCell>{order.createdByUserName}</TableCell>
+                                <TableCell>{order.orderType}</TableCell>
+                                <TableCell>{order.customerName}</TableCell>
                                 <TableCell>
-                                    <Button onClick={() => navigate(`/update/${order.Id}`)}>
+                                    <Button onClick={() => navigate(`/update/${order.orderId}`)}>
                                         <EditIcon />
                                     </Button>
                                 </TableCell>

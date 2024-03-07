@@ -2,24 +2,24 @@ import { OrderType, OrderTypeEnum } from "./types"
 
 export const orderList: OrderType[] = [
     {
-        Id: "1",
-        Type: OrderTypeEnum.Standard,
-        CustomerName: "thomas",
-        CreatedDate: Date.now(),
-        CreatedByUsername: "thomas"
+        orderId: "1",
+        orderType: OrderTypeEnum.Standard,
+        customerName: "thomas",
+        createdDate: "07/20/1990",
+        createdByUserName: "thomas"
     },
     {
-        Id: "2",
-        Type: OrderTypeEnum.SaleOrder,
-        CustomerName: "ryker",
-        CreatedDate: Date.now(),
-        CreatedByUsername: "thomas"
+        orderId: "2",
+        orderType: OrderTypeEnum.SaleOrder,
+        customerName: "ryker",
+        createdDate: "09/26/2018",
+        createdByUserName: "thomas"
     },
     {
-        Id: "3",
-        Type: OrderTypeEnum.TransferOrder,
-        CustomerName: "reyden",
-        CreatedDate: Date.now(),
-        CreatedByUsername: "thomas"
+        orderId: "3",
+        orderType: OrderTypeEnum.TransferOrder,
+        customerName: "reyden",
+        createdDate: "03/22/2021",
+        createdByUserName: "thomas"
     }
 ]

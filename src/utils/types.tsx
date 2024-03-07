@@ -1,9 +1,9 @@
 export type OrderType = {
-    Id: string,
-    Type: OrderTypeEnum,
-    CustomerName: string,
-    CreatedDate: number,
-    CreatedByUsername: string
+    orderId: string,
+    orderType: OrderTypeEnum,
+    customerName: string,
+    createdDate: string,
+    createdByUserName: string
 }
 
 export type UserType = {

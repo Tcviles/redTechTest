@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addOrder } from '../reducers/OrderReducer';
 import { StateType, OrderType, OrderTypeEnum, UserType } from '../utils/types';
 import { useNavigate } from 'react-router-dom';
+import { usePostOrderMutation } from '../reducers/apiReducer';
 
 const useStyles = tss.create({
     container: {
@@ -27,25 +28,6 @@ function CreateOrder() {
     const [customer, setCustomer] = useState<string>('');
     const [orderType, setOrderType] = useState<OrderTypeEnum>(OrderTypeEnum.Standard);
 
-    const createOrderId = (): string => {
-        const characters = '0123456789abcdef';
-        const sectionsLengths = [8, 4, 4, 12];
-        let orderId = '';
-
-        sectionsLengths.forEach((sectionLength, index) => {
-            for (let i = 0; i < sectionLength; i++) {
-                const randomIndex = Math.floor(Math.random() * characters.length);
-                orderId += characters[randomIndex];
-            }
-            if (index !== sectionsLengths.length - 1) {
-                orderId += '-';
-            }
-        });
-
-        const returnValue = orders.find(order => order.Id === orderId) ? createOrderId() : orderId
-
-        return returnValue;
-    }
     const handleCustomerChange = (event: ChangeEvent<HTMLInputElement>) => {
         setCustomer(event.target.value);
     };
@@ -54,20 +36,29 @@ function CreateOrder() {
         setOrderType(event.target.value as OrderTypeEnum);
     };
 
-    const handleSubmit = (event: ChangeEvent<HTMLFormElement>) => {
+    const [postOrder] = usePostOrderMutation()
+
+
+    const handleSubmit = async (event: ChangeEvent<HTMLFormElement>) => {
         event.preventDefault();
-
-        dispatch(
-            addOrder({
-                Id: createOrderId(),
-                CustomerName: customer,
-                Type: orderType,
-                CreatedDate: Date.now(),
-                CreatedByUsername: user.Name,
+        const payload = {
+            orderId: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            orderType,
+            customerName: customer,
+            createdDate: new Date(Date.now()).toLocaleDateString(),
+            createdByUserName: user.Name,
+        }
+        console.log(payload)
+        await postOrder(payload)
+            .unwrap()
+            .then((result: OrderType)=> {
+                console.log(result)
+                dispatch(addOrder(result))
+                navigate('/')
             })
-        );
-
-        navigate('/');
+            .catch((e: any) => {
+                console.error(e.body)
+            })
     };
 
     return (

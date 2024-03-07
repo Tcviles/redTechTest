@@ -28,7 +28,7 @@ function UpdateOrder() {
     const { orderId } = useParams()
 
     // Assuming initialOrderData is obtained from the store or API
-    const initialOrderData = orders.find(order => order.Id === orderId);
+    const initialOrderData = orders.find(order => order.orderId === orderId);
     const [existingOrder, setExistingOrder] = useState<OrderType | null>(initialOrderData || null);
 
     const handleCustomerChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -46,11 +46,11 @@ function UpdateOrder() {
 
         dispatch(
             updateOrder({
-                Id: existingOrder.Id,
-                CustomerName: customer || existingOrder.CustomerName,
-                Type: orderType || existingOrder.Type,
-                CreatedDate: existingOrder.CreatedDate,
-                CreatedByUsername: existingOrder.CreatedByUsername,
+                orderId: existingOrder.orderId,
+                customerName: customer || existingOrder.customerName,
+                orderType: orderType || existingOrder.orderType,
+                createdDate: existingOrder.createdDate,
+                createdByUserName: existingOrder.createdByUserName,
             })
         );
 
@@ -65,7 +65,7 @@ function UpdateOrder() {
                     label="Customer Name"
                     variant="outlined"
                     fullWidth
-                    value={customer || existingOrder?.CustomerName || ''}
+                    value={customer || existingOrder?.customerName || ''}
                     onChange={handleCustomerChange}
                     margin="normal"
                 />
@@ -74,7 +74,7 @@ function UpdateOrder() {
                     label="Order Type"
                     variant="outlined"
                     fullWidth
-                    value={orderType || existingOrder?.Type || OrderTypeEnum.Standard}
+                    value={orderType || existingOrder?.orderType || OrderTypeEnum.Standard}
                     onChange={handleOrderTypeChange}
                     margin="normal"
                 >
