@@ -17,17 +17,30 @@ const useStyles = tss.create({
     tableHeader: {
         display: 'flex',
         justifyContent: 'space-between',
+        flexWrap: 'wrap',
         padding: '10px',
         background: '#f0f0f0'
     },
-    logo: {
+    headerItem: {
         display: 'flex',
         justifyContent: 'center',
-        alignItems: 'center',
-        height: '64px',
-        margin: '5px'
+        padding: '10px',
     },
-    button: {}
+    button: {
+        '@media (max-width: 800px)': {
+            width: '100%',
+        },
+    },
+    combinedCell: {
+        '@media (min-width: 800px)': {
+            display: 'none',
+        },
+    },
+    separatedCell: {
+        '@media (max-width: 800px)': {
+            display: 'none',
+        },
+    }
 })
 
 function TVTable() {
@@ -78,41 +91,52 @@ function TVTable() {
     return (
         <div>
             <Grid className={classes.table}>
-                <Grid className={classes.tableHeader}>
-                    <TextField
-                        label="Search"
-                        variant="outlined"
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                    />
-                    
-                    <Button variant="contained" onClick={() => navigate("/create")}>
-                        <AddIcon /> Create 
-                    </Button>
-                    
-                    <Select
+                <Grid container className={classes.tableHeader}>
+                    <Grid item xs={12} sm={3} className={classes.headerItem}>
+                        <Button className={classes.button} variant="contained" onClick={() => navigate("/create")}>
+                            <AddIcon /> Create Order
+                        </Button>
+                    </Grid>
+                    <Grid item xs={12} sm={3} className={classes.headerItem}>
+                        <Button className={classes.button} variant="contained" onClick={handleDeleteOrders}>
+                            <DeleteIcon /> Delete Selected
+                        </Button>
+                    </Grid>
+                    <Grid item xs={6} sm={3} className={classes.headerItem}>
+                        <TextField
+                            label="Search"
+                            variant="outlined"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                        />
+                    </Grid>
+                    <Grid item xs={6} sm={3} className={classes.headerItem}>
+                        <Select
                         value={orderTypeFilter}
                         onChange={(e) => setOrderTypeFilter(e.target.value as string)}
                         variant="outlined"
-                    >
-                        <MenuItem value="All Types">All Types</MenuItem>
-                        {Object.values(OrderTypeEnum).map((type) => (
-                            <MenuItem key={type} value={type}>
-                                {type}
-                            </MenuItem>
-                        ))}
-                    </Select>
-                    <Button variant="contained" onClick={handleDeleteOrders}>
-                        <DeleteIcon /> Delete Selected Orders
-                    </Button>
+                        >
+                            <MenuItem value="All Types">All Types</MenuItem>
+                            {Object.values(OrderTypeEnum).map((type) => (
+                                <MenuItem key={type} value={type}>
+                                    {type}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </Grid>
+                    
+                    
+                    
+                    
                 </Grid>
                 <Table>
                     <TableHead>
                         <TableRow>
                             <TableCell></TableCell>
                             <TableCell>Order ID</TableCell>
-                            <TableCell>Creation Date</TableCell>
-                            <TableCell>Created By</TableCell>
+                            <TableCell className={classes.combinedCell}>Created By</TableCell>
+                            <TableCell className={classes.separatedCell}>Creation Date</TableCell>
+                            <TableCell className={classes.separatedCell}>Created By</TableCell>
                             <TableCell>Order Type</TableCell>
                             <TableCell>Customer</TableCell>
                         </TableRow>
@@ -127,8 +151,12 @@ function TVTable() {
                                     />
                                 </TableCell>
                                 <TableCell>{order.orderId}</TableCell>
-                                <TableCell>{order.createdDate}</TableCell>
-                                <TableCell>{order.createdByUserName}</TableCell>
+                                <TableCell className={classes.combinedCell}>
+                                    <Typography>{order.createdByUserName}</Typography>
+                                    <Typography variant='caption'>{order.createdDate}</Typography>
+                                </TableCell>
+                                <TableCell className={classes.separatedCell}>{order.createdDate}</TableCell>
+                                <TableCell className={classes.separatedCell}>{order.createdByUserName}</TableCell>
                                 <TableCell>{order.orderType}</TableCell>
                                 <TableCell>{order.customerName}</TableCell>
                                 <TableCell>

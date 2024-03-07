@@ -1,12 +1,12 @@
 
-import { Container } from '@mui/material';
-import TVTable from './components/TVTable';
+import { Container } from '@mui/material'
+import TVTable from './components/TVTable'
 import { tss } from 'tss-react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import CreateOrder from './components/CreateOrder';
-import Header from './components/Header';
-import UpdateUser from './components/UpdateUser';
-import UpdateOrder from './components/UpdateOrder';
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import CreateOrder from './components/CreateOrder'
+import Header from './components/Header'
+import UpdateUser from './components/UpdateUser'
+import UpdateOrder from './components/UpdateOrder'
 
 const useStyles = tss.create({
   content: {
@@ -21,7 +21,7 @@ const useStyles = tss.create({
 })
 
 function App() {
-  const { classes } = useStyles();
+  const { classes } = useStyles()
 
   return (
     <div>
@@ -37,7 +37,7 @@ function App() {
         </Container>
       </BrowserRouter>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
