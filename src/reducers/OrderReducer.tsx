@@ -1,13 +1,15 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { orderList } from "../utils/Data";
 import { OrderType } from "../utils/types";
 
 const orderSlice = createSlice({
     name: "orders",
-    initialState: orderList,
+    initialState: [] as OrderType[],
     reducers: {
         addOrder: (state, action: PayloadAction<OrderType>) => {
             state.push(action.payload)
+        },
+        syncOrders: (state, action: PayloadAction<OrderType[]>) => {
+            return [...action.payload]
         },
         updateOrder: (state, action: PayloadAction<OrderType>) => {
             const { orderId } = action.payload;
@@ -28,5 +30,5 @@ const orderSlice = createSlice({
     }
 })
 
-export const{ addOrder, updateOrder, deleteOrders } = orderSlice.actions
+export const{ addOrder, syncOrders, updateOrder, deleteOrders } = orderSlice.actions
 export default orderSlice.reducer;

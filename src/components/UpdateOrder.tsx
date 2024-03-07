@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateOrder } from '../reducers/OrderReducer';
 import { StateType, OrderType, OrderTypeEnum } from '../utils/types';
 import { useNavigate, useParams } from 'react-router-dom';
+import { usePutOrderMutation } from '../reducers/apiReducer';
 
 const useStyles = tss.create({
     container: {
@@ -26,6 +27,7 @@ function UpdateOrder() {
     const [customer, setCustomer] = useState<string>('');
     const [orderType, setOrderType] = useState<OrderTypeEnum>(OrderTypeEnum.Standard);
     const { orderId } = useParams()
+    const [putOrder] = usePutOrderMutation()
 
     // Assuming initialOrderData is obtained from the store or API
     const initialOrderData = orders.find(order => order.orderId === orderId);
@@ -39,21 +41,23 @@ function UpdateOrder() {
         setOrderType(event.target.value as OrderTypeEnum);
     };
 
-    const handleSubmit = (event: ChangeEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: ChangeEvent<HTMLFormElement>) => {
         event.preventDefault();
 
         if (!existingOrder) return;
+        const payload = {
+            orderId: existingOrder.orderId,
+            customerName: customer || existingOrder.customerName,
+            orderType: orderType || existingOrder.orderType,
+            createdDate: existingOrder.createdDate,
+            createdByUserName: existingOrder.createdByUserName,
+        }
 
-        dispatch(
-            updateOrder({
-                orderId: existingOrder.orderId,
-                customerName: customer || existingOrder.customerName,
-                orderType: orderType || existingOrder.orderType,
-                createdDate: existingOrder.createdDate,
-                createdByUserName: existingOrder.createdByUserName,
-            })
-        );
-
+        await putOrder(payload)
+        .then(() =>
+            dispatch( updateOrder(payload))
+        )
+        
         navigate('/');
     };
 

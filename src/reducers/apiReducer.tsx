@@ -38,7 +38,7 @@ export const api = createApi({
                 method: 'GET'
             })
         }),
-        deleteOrders: builder.mutation<void, string[]>({
+        deleteOrdersOnDisc: builder.mutation<void, string[]>({
             query: (orderIds) => ({
                 url: `/api/Orders/Delete`,
                 method: 'POST',
@@ -53,5 +53,5 @@ export const {
     usePostOrderMutation,
     usePutOrderMutation,
     useGetOrdersByTypeQuery,
-    useDeleteOrdersMutation
+    useDeleteOrdersOnDiscMutation
  } = api;

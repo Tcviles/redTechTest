@@ -23,7 +23,6 @@ function CreateOrder() {
     const { classes } = useStyles();
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const orders = useSelector((state: StateType) => state.orders) as OrderType[]
     const user = useSelector((state: StateType) => state.user) as UserType
     const [customer, setCustomer] = useState<string>('');
     const [orderType, setOrderType] = useState<OrderTypeEnum>(OrderTypeEnum.Standard);
@@ -48,7 +47,6 @@ function CreateOrder() {
             createdDate: new Date(Date.now()).toLocaleDateString(),
             createdByUserName: user.Name,
         }
-        console.log(payload)
         await postOrder(payload)
             .unwrap()
             .then((result: OrderType)=> {

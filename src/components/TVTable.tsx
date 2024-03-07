@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Checkbox, Grid, MenuItem, Select, Table, TableBody, TableCell, TableHead, TableRow, TextField, Typography } from '@mui/material';
 import { tss } from 'tss-react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,8 +7,8 @@ import { useNavigate } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { deleteOrders } from '../reducers/OrderReducer';
-import { useGetOrdersQuery } from '../reducers/apiReducer';
+import { deleteOrders, syncOrders } from '../reducers/OrderReducer';
+import { useDeleteOrdersOnDiscMutation, useGetOrdersQuery } from '../reducers/apiReducer';
 
 const useStyles = tss.create({
     table: {
@@ -38,9 +38,8 @@ function TVTable() {
     const [selectedOrders, setSelectedOrders] = useState<string[]>([]);
     const [searchQuery, setSearchQuery] = useState<string>('');
     const [orderTypeFilter, setOrderTypeFilter] = useState<string>('All Types');
-    const { data, isLoading, isError } = useGetOrdersQuery()
-
-    console.log(data)
+    const { data, isLoading, isError, refetch } = useGetOrdersQuery()
+    const [deleteOrdersOnDisc] = useDeleteOrdersOnDiscMutation()
 
     const handleCheckboxChange = (orderId: string) => {
         if (selectedOrders.includes(orderId)) {
@@ -50,8 +49,18 @@ function TVTable() {
         }
     };
 
-    const handleDeleteOrders = () => {
-        dispatch(deleteOrders(selectedOrders));
+    useEffect(() => {
+        console.log({data, isLoading, isError})
+        if (data && !isLoading && !isError) {
+            dispatch(syncOrders(data)) 
+        }
+    }, [data, dispatch])
+
+    const handleDeleteOrders = async () => {
+        await deleteOrdersOnDisc(selectedOrders)
+            .then(() =>
+                dispatch(deleteOrders(selectedOrders))
+            )
     };
 
     const filteredOrders = orders.filter(order =>
