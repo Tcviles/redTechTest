@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Button, Checkbox, Grid, MenuItem, Select, Table, TableBody, TableCell, TableHead, TableRow, TextField, Typography } from '@mui/material'
+import { Button, Checkbox, CircularProgress, Grid, MenuItem, Select, Table, TableBody, TableCell, TableHead, TableRow, TextField, Typography } from '@mui/material'
 import { tss } from 'tss-react'
 import { useDispatch, useSelector } from 'react-redux'
 import { OrderType, OrderTypeEnum, StateType } from '../utils/types'
@@ -8,7 +8,7 @@ import AddIcon from '@mui/icons-material/Add'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import { syncOrders } from '../reducers/OrderReducer'
-import { useDeleteOrdersOnDiscMutation, useGetOrdersByTypeQuery, useGetOrdersQuery } from '../reducers/apiReducer'
+import { useDeleteOrdersOnDiscMutation, useGetOrdersQuery } from '../reducers/apiReducer'
 
 const useStyles = tss.create({
     table: {
@@ -53,6 +53,7 @@ function TVTable() {
     const [orderTypeFilter, setOrderTypeFilter] = useState<string>('All Types')
     const { data, isLoading, isError, refetch } = useGetOrdersQuery()
     const [deleteOrdersOnDisc] = useDeleteOrdersOnDiscMutation()
+    const [isLoading2, setIsLoading2] = useState<boolean>(false)
 
     useEffect(() => {
         console.log("refetch on navigate")
@@ -74,8 +75,10 @@ function TVTable() {
     }, [data, dispatch])
 
     const handleDeleteOrders = async () => {
+        setIsLoading2(true)
         await deleteOrdersOnDisc(selectedOrders)
             .then(() => { refetch() })
+            .finally(() => setIsLoading2(false))
     }
 
     const filteredOrders = orders.filter(order =>
@@ -87,6 +90,14 @@ function TVTable() {
         &&
         (orderTypeFilter === 'All Types' || order.orderType === orderTypeFilter)
     )
+
+    if (isLoading2) {
+        return (
+            <Grid container justifyContent={"center"}>
+                <CircularProgress />
+            </Grid>
+        )
+    }
 
     return (
         <div>

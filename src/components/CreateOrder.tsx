@@ -1,4 +1,4 @@
-import { Button, Grid, MenuItem, TextField, Typography } from '@mui/material'
+import { Button, CircularProgress, Grid, MenuItem, TextField, Typography } from '@mui/material'
 import { tss } from 'tss-react'
 import { ChangeEvent, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -17,6 +17,9 @@ const useStyles = tss.create({
     button: {
         marginLeft: '10px',
     },
+    spinner: {
+        marginLeft: '10px',
+    },
 })
 
 function CreateOrder() {
@@ -26,6 +29,7 @@ function CreateOrder() {
     const user = useSelector((state: StateType) => state.user) as UserType
     const [customer, setCustomer] = useState<string>('')
     const [orderType, setOrderType] = useState<OrderTypeEnum>(OrderTypeEnum.Standard)
+    const [isLoading, setIsLoading] = useState<boolean>(false)
     const [postOrder] = usePostOrderMutation()
 
     const handleCustomerChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -38,6 +42,7 @@ function CreateOrder() {
 
     const handleSubmit = async (event: ChangeEvent<HTMLFormElement>) => {
         event.preventDefault()
+        setIsLoading(true)
         const payload = {
             orderId: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
             orderType,
@@ -54,6 +59,9 @@ function CreateOrder() {
             .catch((e: any) => {
                 console.error(e.body)
             })
+            .finally(() => {
+                setIsLoading(false)
+            })
     }
 
     useEffect(() => {
@@ -61,6 +69,14 @@ function CreateOrder() {
             navigate("/signin")
         }
     }, [])
+
+    if (isLoading) {
+        return (
+            <Grid container justifyContent={"center"}>
+                <CircularProgress className={classes.spinner} />
+            </Grid>
+        )
+    }
 
     return (
         <Grid container justifyContent="center" className={classes.container}>
