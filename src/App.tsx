@@ -1,24 +1,39 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+
+import { Container } from '@mui/material';
+import TVTable from './components/TVTable';
+import { tss } from 'tss-react'
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import CreateOrder from './components/CreateOrder';
+import Header from './components/Header';
+import UpdateUser from './components/UpdateUser';
+
+const useStyles = tss.create({
+  content: {
+    padding: '0px !important',
+    marginTop: '20px',
+    borderRadius: '5px',
+    boxShadow: '0px 2px 92px 0px rgba(0, 0, 0, 0.20) !important',
+    WebkitBoxShadow: '0px 2px 92px 0px rgba(0, 0, 0, 0.20) !important',
+    MozBoxShadow: '0px 2px 92px 0px rgba(0, 0, 0, 0.20) !important'
+  },
+  button: {}
+})
 
 function App() {
+  const { classes } = useStyles();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <BrowserRouter>
+        <Header />
+        <Container className={classes.content}>
+            <Routes>
+            <Route path='/' element={<TVTable />} />
+            <Route path='/create' element={<CreateOrder />} />
+            <Route path='/signin' element={<UpdateUser />} />
+            </Routes>
+        </Container>
+      </BrowserRouter>
     </div>
   );
 }
