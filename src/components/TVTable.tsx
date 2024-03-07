@@ -1,19 +1,23 @@
-
-import { Button, Checkbox, Grid, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
+import { useState } from 'react';
+import { Button, Checkbox, Grid, MenuItem, Select, Table, TableBody, TableCell, TableHead, TableRow, TextField, Typography } from '@mui/material';
 import { tss } from 'tss-react';
 import { useDispatch, useSelector } from 'react-redux';
-import { OrderType, StateType } from '../utils/types'
+import { OrderType, OrderTypeEnum, StateType } from '../utils/types';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import { deleteOrders } from '../reducers/OrderReducer';
+import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import { deleteOrders } from '../reducers/OrderReducer';
 
 const useStyles = tss.create({
     table: {
         background: 'white',
     },
     tableHeader: {
-        display: 'flex'
+        display: 'flex',
+        justifyContent: 'space-between',
+        padding: '10px',
+        background: '#f0f0f0'
     },
     logo: {
         display: 'flex',
@@ -27,10 +31,12 @@ const useStyles = tss.create({
 
 function TVTable() {
     const { classes } = useStyles();
-    const dispatch = useDispatch()
-    const navigate = useNavigate()
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const orders = useSelector((state: StateType) => state.orders);
     const [selectedOrders, setSelectedOrders] = useState<string[]>([]);
+    const [searchQuery, setSearchQuery] = useState<string>('');
+    const [orderTypeFilter, setOrderTypeFilter] = useState<string>('All Types');
 
     const handleCheckboxChange = (orderId: string) => {
         if (selectedOrders.includes(orderId)) {
@@ -41,16 +47,49 @@ function TVTable() {
     };
 
     const handleDeleteOrders = () => {
-        dispatch(deleteOrders(selectedOrders))
+        dispatch(deleteOrders(selectedOrders));
     };
+
+    const filteredOrders = orders.filter(order =>
+        (order.Id.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        order.CreatedByUsername.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        order.Type.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        order.CustomerName.toLowerCase().includes(searchQuery.toLowerCase()))
+
+        &&
+        (orderTypeFilter === 'All Types' || order.Type === orderTypeFilter)
+    );
 
     return (
         <div>
             <Grid className={classes.table}>
                 <Grid className={classes.tableHeader}>
-                    <Typography> Crud App for red-tech</Typography>
-                    <Button onClick={() => navigate("/create")}> Create + </Button>
-                    <Button onClick={handleDeleteOrders}>Delete Selected Orders</Button>
+                    <TextField
+                        label="Search"
+                        variant="outlined"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                    
+                    <Button variant="contained" onClick={() => navigate("/create")}>
+                        <AddIcon /> Create 
+                    </Button>
+                    
+                    <Select
+                        value={orderTypeFilter}
+                        onChange={(e) => setOrderTypeFilter(e.target.value as string)}
+                        variant="outlined"
+                    >
+                        <MenuItem value="All Types">All Types</MenuItem>
+                        {Object.values(OrderTypeEnum).map((type) => (
+                            <MenuItem key={type} value={type}>
+                                {type}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                    <Button variant="contained" onClick={handleDeleteOrders}>
+                        <DeleteIcon /> Delete Selected Orders
+                    </Button>
                 </Grid>
                 <Table>
                     <TableHead>
@@ -64,8 +103,9 @@ function TVTable() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {orders.map((order: OrderType, index: number) => (
-                                <TableRow key={index}><TableCell>
+                        {filteredOrders.map((order: OrderType, index: number) => (
+                            <TableRow key={index}>
+                                <TableCell>
                                     <Checkbox
                                         checked={selectedOrders.includes(order.Id)}
                                         onChange={() => handleCheckboxChange(order.Id)}
