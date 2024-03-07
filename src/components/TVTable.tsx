@@ -41,6 +41,11 @@ function TVTable() {
     const { data, isLoading, isError, refetch } = useGetOrdersQuery()
     const [deleteOrdersOnDisc] = useDeleteOrdersOnDiscMutation()
 
+    useEffect(() => {
+        console.log("refetch on navigate")
+        refetch()
+    }, [])
+
     const handleCheckboxChange = (orderId: string) => {
         if (selectedOrders.includes(orderId)) {
             setSelectedOrders(selectedOrders.filter(id => id !== orderId));
@@ -50,7 +55,6 @@ function TVTable() {
     };
 
     useEffect(() => {
-        console.log({data, isLoading, isError})
         if (data && !isLoading && !isError) {
             dispatch(syncOrders(data)) 
         }
@@ -58,9 +62,7 @@ function TVTable() {
 
     const handleDeleteOrders = async () => {
         await deleteOrdersOnDisc(selectedOrders)
-            .then(() =>
-                dispatch(deleteOrders(selectedOrders))
-            )
+            .then(() => dispatch(deleteOrders(selectedOrders)))
     };
 
     const filteredOrders = orders.filter(order =>

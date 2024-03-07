@@ -1,6 +1,6 @@
 import { Button, Grid, MenuItem, TextField, Typography } from '@mui/material';
 import { tss } from 'tss-react';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addOrder } from '../reducers/OrderReducer';
 import { StateType, OrderType, OrderTypeEnum, UserType } from '../utils/types';
@@ -26,6 +26,7 @@ function CreateOrder() {
     const user = useSelector((state: StateType) => state.user) as UserType
     const [customer, setCustomer] = useState<string>('');
     const [orderType, setOrderType] = useState<OrderTypeEnum>(OrderTypeEnum.Standard);
+    const [postOrder] = usePostOrderMutation()
 
     const handleCustomerChange = (event: ChangeEvent<HTMLInputElement>) => {
         setCustomer(event.target.value);
@@ -34,9 +35,6 @@ function CreateOrder() {
     const handleOrderTypeChange = (event: ChangeEvent<HTMLInputElement>) => {
         setOrderType(event.target.value as OrderTypeEnum);
     };
-
-    const [postOrder] = usePostOrderMutation()
-
 
     const handleSubmit = async (event: ChangeEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -50,7 +48,6 @@ function CreateOrder() {
         await postOrder(payload)
             .unwrap()
             .then((result: OrderType)=> {
-                console.log(result)
                 dispatch(addOrder(result))
                 navigate('/')
             })
@@ -58,6 +55,12 @@ function CreateOrder() {
                 console.error(e.body)
             })
     };
+
+    useEffect(() => {
+        if(user.Name === "Guest") {
+            navigate("/signin")
+        }
+    }, [])
 
     return (
         <Grid container justifyContent="center" className={classes.container}>
