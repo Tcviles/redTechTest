@@ -9,7 +9,7 @@ import OrderReducer from './reducers/OrderReducer';
 import UserReducer from './reducers/UserReducer';
 import { api } from './reducers/apiReducer'
 
-const store = configureStore({
+export const store = configureStore({
   reducer:{
     orders: OrderReducer,
     user: UserReducer,
