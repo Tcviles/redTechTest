@@ -154,8 +154,9 @@ function TVTable() {
                             <TableCell className={classes.combinedCell}>Created By</TableCell>
                             <TableCell className={classes.separatedCell}>Creation Date</TableCell>
                             <TableCell className={classes.separatedCell}>Created By</TableCell>
-                            <TableCell>Order Type</TableCell>
-                            <TableCell>Customer</TableCell>
+                            <TableCell className={classes.combinedCell}>Order Type / Customer</TableCell>
+                            <TableCell className={classes.separatedCell}>Order Type</TableCell>
+                            <TableCell className={classes.separatedCell}>Customer</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -174,8 +175,12 @@ function TVTable() {
                                 </TableCell>
                                 <TableCell className={classes.separatedCell}>{order.createdDate}</TableCell>
                                 <TableCell className={classes.separatedCell}>{order.createdByUserName}</TableCell>
-                                <TableCell>{order.orderType}</TableCell>
-                                <TableCell>{order.customerName}</TableCell>
+                                <TableCell className={classes.combinedCell}>
+                                    <Typography>{order.customerName}</Typography>
+                                    <Typography variant='caption'>{order.orderType}</Typography>
+                                </TableCell>
+                                <TableCell className={classes.separatedCell}>{order.orderType}</TableCell>
+                                <TableCell className={classes.separatedCell}>{order.customerName}</TableCell>
                                 <TableCell>
                                     <Button onClick={() => navigate(`/update/${order.orderId}`)}>
                                         <EditIcon />
