@@ -19,7 +19,9 @@ const useStyles = tss.create({
         height: '64px',
         margin: '5px'
     },
-    button: {},
+    accountIcon: {
+        transform: 'scale(1.5)'
+    },
     account: {
         display: 'flex',
         alignItems: 'center'
@@ -40,8 +42,8 @@ function Header() {
             </Grid>
             <Grid className={classes.account}>
                 <Typography>Hello {user.Name}</Typography>
-                <Button onClick={() => navigate("/signin")}>
-                    <AccountCircleIcon />
+                <Button className={classes.logo} onClick={() => navigate("/signin")}>
+                    <AccountCircleIcon className={classes.accountIcon} />
                 </Button>
             </Grid>
         </Grid>
