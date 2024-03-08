@@ -102,7 +102,12 @@ function CreateOrder() {
                         </MenuItem>
                     ))}
                 </TextField>
-                <Button type="submit" variant="contained" color="primary" className={classes.button}>
+                <Button 
+                    type="submit" 
+                    variant="contained" 
+                    color="primary" 
+                    className={classes.button}
+                >
                     Submit
                 </Button>
             </form>
