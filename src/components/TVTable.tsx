@@ -40,7 +40,13 @@ const useStyles = tss.create({
         '@media (max-width: 800px)': {
             display: 'none',
         },
-    }
+    },
+    rowHoverEffect: {
+        transition: 'background-color 0.3s ease',
+        '&:hover': {
+            backgroundColor: '#f0f0f0',
+        },
+    },
 })
 
 function TVTable() {
@@ -154,7 +160,7 @@ function TVTable() {
                     </TableHead>
                     <TableBody>
                         {filteredOrders.map((order: OrderType, index: number) => (
-                            <TableRow key={index}>
+                            <TableRow key={index} className={classes.rowHoverEffect}>
                                 <TableCell>
                                     <Checkbox
                                         checked={selectedOrders.includes(order.orderId)}

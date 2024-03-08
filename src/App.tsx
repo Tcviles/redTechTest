@@ -7,6 +7,7 @@ import CreateOrder from './components/CreateOrder'
 import Header from './components/Header'
 import UpdateUser from './components/UpdateUser'
 import UpdateOrder from './components/UpdateOrder'
+import Footer from './components/Footer'
 
 const useStyles = tss.create({
   content: {
@@ -29,12 +30,15 @@ function App() {
         <Header />
         <Container className={classes.content}>
             <Routes>
-            <Route path='/' element={<TVTable />} />
-            <Route path='/create' element={<CreateOrder />} />
-            <Route path='/signin' element={<UpdateUser />} />
-            <Route path='/update/:orderId' element={<UpdateOrder />} />
+              <Route path='/' element={<TVTable />} />
+              <Route path='/create' element={<CreateOrder />} />
+              <Route path='/signin' element={<UpdateUser />} />
+              <Route path='/update/:orderId' element={<UpdateOrder />} />
             </Routes>
         </Container>
+        <Container className={classes.content}>
+          <Footer />
+        </ Container>
       </BrowserRouter>
     </div>
   )
