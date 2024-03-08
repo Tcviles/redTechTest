@@ -163,15 +163,11 @@ function TVTable() {
                             ))}
                         </Select>
                     </Grid>
-                    
-                    
-                    
-                    
                 </Grid>
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell></TableCell>
+                            <TableCell className={classes.editCell}></TableCell>
                             <TableCell>Order ID</TableCell>
                             <TableCell className={classes.combinedCell}>Created By</TableCell>
                             <TableCell className={classes.separatedCell}>Creation Date</TableCell>
@@ -184,13 +180,20 @@ function TVTable() {
                     <TableBody>
                         {filteredOrders.map((order: OrderType, index: number) => (
                             <TableRow key={index} className={classes.rowHoverEffect}>
-                                <TableCell>
+                                <TableCell className={classes.editCell}>
                                     <Checkbox
                                         checked={selectedOrders.includes(order.orderId)}
                                         onChange={() => handleCheckboxChange(order.orderId)}
                                     />
                                 </TableCell>
-                                <TableCell>{order.orderId}</TableCell>
+                                <TableCell className={classes.intrusiveEditCell}>
+                                    <Checkbox
+                                        checked={selectedOrders.includes(order.orderId)}
+                                        onChange={() => handleCheckboxChange(order.orderId)}
+                                    />
+                                    <Typography>{order.orderId}</Typography>
+                                </TableCell>
+                                <TableCell className={classes.editCell}>{order.orderId}</TableCell>
                                 <TableCell className={classes.combinedCell}>
                                     <Typography>{order.createdByUserName}</Typography>
                                     <Typography variant='caption'>{order.createdDate}</Typography>
