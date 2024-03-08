@@ -41,6 +41,16 @@ const useStyles = tss.create({
             display: 'none',
         },
     },
+    editCell: {
+        '@media (max-width: 500px)': {
+            display: 'none',
+        },
+    },
+    intrusiveEditCell: {
+        '@media (min-width: 500px)': {
+            display: 'none',
+        },
+    },
     rowHoverEffect: {
         transition: 'background-color 0.3s ease',
         '&:hover': {
@@ -154,7 +164,7 @@ function TVTable() {
                             <TableCell className={classes.combinedCell}>Created By</TableCell>
                             <TableCell className={classes.separatedCell}>Creation Date</TableCell>
                             <TableCell className={classes.separatedCell}>Created By</TableCell>
-                            <TableCell className={classes.combinedCell}>Order Type / Customer</TableCell>
+                            <TableCell className={classes.combinedCell}>Customer / Order Type</TableCell>
                             <TableCell className={classes.separatedCell}>Order Type</TableCell>
                             <TableCell className={classes.separatedCell}>Customer</TableCell>
                         </TableRow>
@@ -178,10 +188,13 @@ function TVTable() {
                                 <TableCell className={classes.combinedCell}>
                                     <Typography>{order.customerName}</Typography>
                                     <Typography variant='caption'>{order.orderType}</Typography>
+                                    <Button className={classes.intrusiveEditCell} onClick={() => navigate(`/update/${order.orderId}`)}>
+                                        <EditIcon />
+                                    </Button>
                                 </TableCell>
                                 <TableCell className={classes.separatedCell}>{order.orderType}</TableCell>
                                 <TableCell className={classes.separatedCell}>{order.customerName}</TableCell>
-                                <TableCell>
+                                <TableCell className={classes.editCell}>
                                     <Button onClick={() => navigate(`/update/${order.orderId}`)}>
                                         <EditIcon />
                                     </Button>
