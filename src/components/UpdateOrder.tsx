@@ -93,7 +93,7 @@ function UpdateOrder() {
                     label="Order Type"
                     variant="outlined"
                     fullWidth
-                    value={orderType || existingOrder?.orderType || OrderTypeEnum.Standard}
+                    value={orderType || existingOrder?.orderType || OrderTypeEnum.standard}
                     onChange={handleOrderTypeChange}
                     margin="normal"
                 >

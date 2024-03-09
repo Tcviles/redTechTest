@@ -11,11 +11,11 @@ export type UserType = {
 }
 
 export enum OrderTypeEnum {
-    Standard = "Standard",
-    SaleOrder = "SaleOrder",
-    PurchaseOrder = "PurchaseOrder",
-    TransferOrder = "TransferOrder",
-    ReturnOrder = "ReturnOrder",
+    standard = "Standard",
+    saleOrder = "SaleOrder",
+    purchaseOrder = "PurchaseOrder",
+    transferOrder = "TransferOrder",
+    returnOrder = "ReturnOrder",
 }
 
 export type StateType = {

@@ -25,7 +25,7 @@ function CreateOrder() {
     const navigate = useNavigate()
     const user = useSelector((state: StateType) => state.user) as UserType
     const [customer, setCustomer] = useState<string>('')
-    const [orderType, setOrderType] = useState<OrderTypeEnum>(OrderTypeEnum.Standard)
+    const [orderType, setOrderType] = useState<OrderTypeEnum>(OrderTypeEnum.standard)
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [postOrder] = usePostOrderMutation()
 

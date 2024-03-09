@@ -22,6 +22,8 @@ function Signin() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const [username, setUsername] = useState<string>('')
+    const previousRoute = window.history.state
+    console.log(previousRoute)
 
     const handleUsernameChange = (event: ChangeEvent<HTMLInputElement>) => {
         setUsername(event.target.value)
