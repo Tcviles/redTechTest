@@ -7,6 +7,7 @@ import { StateType, OrderType, OrderTypeEnum, UserType } from '../utils/types'
 import { useNavigate } from 'react-router-dom'
 import { usePostOrderMutation } from '../reducers/apiReducer'
 import { setHistory } from '../reducers/HistoryReducer'
+import { updateSavedDraft } from '../reducers/UserReducer'
 
 const useStyles = tss.create({
     container: {
@@ -25,8 +26,8 @@ function CreateOrder() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const user = useSelector((state: StateType) => state.user) as UserType
-    const [customer, setCustomer] = useState<string>('')
-    const [orderType, setOrderType] = useState<OrderTypeEnum>(OrderTypeEnum.standard)
+    const [customer, setCustomer] = useState<string>(user.savedDraft.customerName)
+    const [orderType, setOrderType] = useState<OrderTypeEnum>(user.savedDraft.orderType)
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [postOrder] = usePostOrderMutation()
 
@@ -36,6 +37,10 @@ function CreateOrder() {
 
     const handleOrderTypeChange = (event: ChangeEvent<HTMLInputElement>) => {
         setOrderType(event.target.value as OrderTypeEnum)
+    }
+
+    const handleSaveDraft = () => {
+        dispatch(updateSavedDraft({ customerName: customer, orderType }))
     }
 
     const handleSubmit = async (event: ChangeEvent<HTMLFormElement>) => {
@@ -52,6 +57,7 @@ function CreateOrder() {
             .unwrap()
             .then((result: OrderType)=> {
                 dispatch(addOrder(result))
+                dispatch(updateSavedDraft({ customerName: '', orderType: OrderTypeEnum.standard }))
                 navigate('/')
             })
             .catch((e: any) => {
@@ -104,13 +110,21 @@ function CreateOrder() {
                         </MenuItem>
                     ))}
                 </TextField>
-                <Button 
-                    type="submit" 
-                    variant="contained" 
-                    color="primary" 
+                <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
                     className={classes.button}
                 >
                     Submit
+                </Button>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    className={classes.button}
+                    onClick={handleSaveDraft}
+                >
+                    Save Draft
                 </Button>
             </form>
         </Grid>

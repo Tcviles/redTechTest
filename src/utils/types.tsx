@@ -8,15 +8,12 @@ export type OrderType = {
 
 export type UserType = {
     name: string
-    pendingOrder: PendingOrderType
+    savedDraft: SavedDraftType
 }
 
-export type PendingOrderType = {
-    orderId?: string
-    orderType?: OrderTypeEnum
-    customerName?: string
-    createdDate?: string
-    createdByUserName?: string
+export type SavedDraftType = {
+    orderType: OrderTypeEnum
+    customerName: string
 }
 
 export enum OrderTypeEnum {
