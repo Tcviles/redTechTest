@@ -1,9 +1,10 @@
 import { Button, Grid, TextField, Typography } from '@mui/material'
 import { tss } from 'tss-react'
 import { ChangeEvent, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { updateUser } from '../reducers/UserReducer'
 import { useNavigate } from 'react-router-dom'
+import { HistoryType, StateType } from '../utils/types'
 
 const useStyles = tss.create({
     container: {
@@ -22,8 +23,7 @@ function Signin() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const [username, setUsername] = useState<string>('')
-    const previousRoute = window.history.state
-    console.log(previousRoute)
+    const history = useSelector((state: StateType) => state.history) as HistoryType
 
     const handleUsernameChange = (event: ChangeEvent<HTMLInputElement>) => {
         setUsername(event.target.value)
@@ -35,8 +35,8 @@ function Signin() {
         dispatch(
             updateUser(username)
         )
-
-        navigate('/')
+        
+        navigate(history.prevRoute)
     }
 
     return (

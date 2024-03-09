@@ -2,11 +2,11 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 
 const userSlice = createSlice({
     name: "user",
-    initialState: { Name: "Guest" },
+    initialState: { name: "Guest", pendingOrder: { started: false }},
     reducers: {
         updateUser: (state, action: PayloadAction<string>) => {
-            state.Name = action.payload
-        }
+            state.name = action.payload
+        },
     }
 })
 

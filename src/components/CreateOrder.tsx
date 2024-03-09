@@ -6,6 +6,7 @@ import { addOrder } from '../reducers/OrderReducer'
 import { StateType, OrderType, OrderTypeEnum, UserType } from '../utils/types'
 import { useNavigate } from 'react-router-dom'
 import { usePostOrderMutation } from '../reducers/apiReducer'
+import { setHistory } from '../reducers/HistoryReducer'
 
 const useStyles = tss.create({
     container: {
@@ -45,7 +46,7 @@ function CreateOrder() {
             orderType,
             customerName: customer,
             createdDate: new Date(Date.now()).toLocaleDateString(),
-            createdByUserName: user.Name,
+            createdByUserName: user.name,
         }
         await postOrder(payload)
             .unwrap()
@@ -62,7 +63,8 @@ function CreateOrder() {
     }
 
     useEffect(() => {
-        if(user.Name === "Guest") {
+        if(user.name === "Guest") {
+            dispatch(setHistory('/create'))
             navigate("/signin")
         }
     }, [])

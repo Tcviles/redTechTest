@@ -1,13 +1,22 @@
 export type OrderType = {
-    orderId: string,
-    orderType: OrderTypeEnum,
-    customerName: string,
-    createdDate: string,
+    orderId: string
+    orderType: OrderTypeEnum
+    customerName: string
+    createdDate: string
     createdByUserName: string
 }
 
 export type UserType = {
-    Name: string,
+    name: string
+    pendingOrder: PendingOrderType
+}
+
+export type PendingOrderType = {
+    orderId?: string
+    orderType?: OrderTypeEnum
+    customerName?: string
+    createdDate?: string
+    createdByUserName?: string
 }
 
 export enum OrderTypeEnum {
@@ -18,7 +27,12 @@ export enum OrderTypeEnum {
     returnOrder = "ReturnOrder",
 }
 
+export type HistoryType = {
+    prevRoute: string
+}
+
 export type StateType = {
-    orders: OrderType[],
+    orders: OrderType[]
     user: UserType
+    history: HistoryType
 }

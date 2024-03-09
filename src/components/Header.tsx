@@ -3,8 +3,9 @@ import { Button, Grid, Typography } from '@mui/material'
 import { tss } from 'tss-react'
 import { useNavigate } from 'react-router-dom'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { StateType } from '../utils/types'
+import { setHistory } from '../reducers/HistoryReducer'
 
 const useStyles = tss.create({
     tableHeader: {
@@ -31,6 +32,7 @@ const useStyles = tss.create({
 function Header() {
     const { classes } = useStyles()
     const navigate = useNavigate()
+    const dispatch = useDispatch()
     const user = useSelector((state: StateType) => state.user)
     
     return (
@@ -41,8 +43,11 @@ function Header() {
                 </Button>
             </Grid>
             <Grid className={classes.account}>
-                <Typography>Hello {user.Name}</Typography>
-                <Button className={classes.logo} onClick={() => navigate("/signin")}>
+                <Typography>Hello {user.name}</Typography>
+                <Button className={classes.logo} onClick={() => {
+                    dispatch(setHistory('/'))
+                    navigate("/signin")
+                }}>
                     <AccountCircleIcon className={classes.accountIcon} />
                 </Button>
             </Grid>
