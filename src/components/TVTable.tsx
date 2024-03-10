@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import { Button, Checkbox, CircularProgress, Grid, MenuItem, Select, Table, TableBody, TableCell, TableHead, TableRow, TextField, Typography } from '@mui/material'
 import { tss } from 'tss-react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -9,6 +9,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import { syncOrders } from '../reducers/OrderReducer'
 import { useDeleteOrdersOnDiscMutation, useGetOrdersQuery } from '../reducers/apiReducer'
+import { Add } from '@mui/icons-material'
 
 const useStyles = tss.create({
     table: {
@@ -70,6 +71,19 @@ const useStyles = tss.create({
     },
 })
 
+const HeaderButton = ({ label, icon, onClick, classes } : {
+    label: string,
+    icon: ReactElement,
+    onClick: () => void,
+    classes: Record<string, string>
+}) => (
+    <Grid item xs={12} sm={3} className={classes.headerItem}>
+        <Button className={classes.button} variant="contained" onClick={onClick}>
+            {icon} {label}
+        </Button>
+    </Grid>
+);
+
 function TVTable() {
     const { classes } = useStyles()
     const dispatch = useDispatch()
@@ -86,6 +100,12 @@ function TVTable() {
         refetch()
     }, [])
 
+    useEffect(() => {
+        if (data && !isLoading && !isError) {
+            dispatch(syncOrders(data))
+        }
+    }, [data, dispatch])
+
     const handleCheckboxChange = (orderId: string) => {
         if (selectedOrders.includes(orderId)) {
             setSelectedOrders(selectedOrders.filter(id => id !== orderId))
@@ -93,12 +113,6 @@ function TVTable() {
             setSelectedOrders([...selectedOrders, orderId])
         }
     }
-
-    useEffect(() => {
-        if (data && !isLoading && !isError) {
-            dispatch(syncOrders(data)) 
-        }
-    }, [data, dispatch])
 
     const handleDeleteOrders = async () => {
         setIsLoading2(true)
@@ -109,9 +123,9 @@ function TVTable() {
 
     const filteredOrders = orders.filter(order =>
         (order.orderId.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        order.createdByUserName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        order.orderType.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        order.customerName.toLowerCase().includes(searchQuery.toLowerCase()))
+            order.createdByUserName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            order.orderType.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            order.customerName.toLowerCase().includes(searchQuery.toLowerCase()))
 
         &&
         (orderTypeFilter === 'All Types' || order.orderType === orderTypeFilter)
@@ -130,16 +144,18 @@ function TVTable() {
             <Grid className={classes.table}>
                 <Grid className={classes.banner}>Get A bigger phone dawg</Grid>
                 <Grid container className={classes.tableHeader}>
-                    <Grid item xs={12} sm={3} className={classes.headerItem}>
-                        <Button className={classes.button} variant="contained" onClick={() => navigate("/create")}>
-                            <AddIcon /> Create Order
-                        </Button>
-                    </Grid>
-                    <Grid item xs={12} sm={3} className={classes.headerItem}>
-                        <Button className={classes.button} variant="contained" onClick={handleDeleteOrders}>
-                            <DeleteIcon /> Delete Selected
-                        </Button>
-                    </Grid>
+                    <HeaderButton
+                        label='Create Order'
+                        icon={<AddIcon />}
+                        onClick={() => navigate("/create")}
+                        classes={classes}
+                    />
+                    <HeaderButton
+                        label='Delete Selected'
+                        icon={<DeleteIcon />}
+                        onClick={handleDeleteOrders}
+                        classes={classes}
+                    />
                     <Grid item xs={6} sm={3} className={classes.headerItem}>
                         <TextField
                             label="Search"
@@ -150,9 +166,9 @@ function TVTable() {
                     </Grid>
                     <Grid item xs={6} sm={3} className={classes.headerItem}>
                         <Select
-                        value={orderTypeFilter}
-                        onChange={(e) => setOrderTypeFilter(e.target.value as string)}
-                        variant="outlined"
+                            value={orderTypeFilter}
+                            onChange={(e) => setOrderTypeFilter(e.target.value as string)}
+                            variant="outlined"
                         >
                             <MenuItem value="All Types">All Types</MenuItem>
                             {Object.values(OrderTypeEnum).map((type) => (
