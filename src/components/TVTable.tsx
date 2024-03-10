@@ -83,7 +83,6 @@ function TVTable() {
     const [isLoading2, setIsLoading2] = useState<boolean>(false)
 
     useEffect(() => {
-        console.log("refetch on navigate")
         refetch()
     }, [])
 
