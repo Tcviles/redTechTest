@@ -44,6 +44,7 @@ function Signin() {
             <form className={classes.form} onSubmit={handleSubmit}>
                 <Typography variant="h5">Update User Name</Typography>
                 <TextField
+                    data-cy='username-fld'
                     label="New Username"
                     variant="outlined"
                     fullWidth
@@ -51,7 +52,7 @@ function Signin() {
                     onChange={handleUsernameChange}
                     margin="normal"
                 />
-                <Button type="submit" variant="contained" color="primary" className={classes.button}>
+                <Button data-cy='user-submit-btn' type="submit" variant="contained" color="primary" className={classes.button}>
                     Submit
                 </Button>
             </form>

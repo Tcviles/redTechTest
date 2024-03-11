@@ -40,7 +40,7 @@ function Footer() {
     return (
         <Box className={classes.footer}>
             <Box className={classes.footerText}>
-                <Typography className={classes.textLeft}>Thomas Viles</Typography>
+                <Typography data-cy='footer-txt' className={classes.textLeft}>Thomas Viles</Typography>
             </Box>
 
             <Box className={classes.footerText}>

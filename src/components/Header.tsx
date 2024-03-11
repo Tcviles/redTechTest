@@ -38,13 +38,13 @@ function Header() {
     return (
         <Grid className={classes.tableHeader}>
             <Grid>
-                <Button onClick={() => navigate("/")}>
+                <Button data-cy='red-tech-logo' onClick={() => navigate("/")}>
                     <img className={classes.logo} src={require('../media/red-tech-logo.png')} alt='' />
                 </Button>
             </Grid>
             <Grid className={classes.account}>
-                <Typography>Hello {user.name}</Typography>
-                <Button className={classes.logo} onClick={() => {
+                <Typography data-cy='hello-user-txt'>Hello {user.name}</Typography>
+                <Button data-cy='update-user-btn' className={classes.logo} onClick={() => {
                     dispatch(setHistory('/'))
                     navigate("/signin")
                 }}>

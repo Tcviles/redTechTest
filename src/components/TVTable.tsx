@@ -71,14 +71,20 @@ const useStyles = tss.create({
     },
 })
 
-const HeaderButton = ({ label, icon, onClick, classes } : {
-    label: string,
-    icon: ReactElement,
-    onClick: () => void,
+const HeaderButton = ({ label, icon, onClick, classes, datacy } : {
+    label: string
+    icon: ReactElement
+    onClick: () => void
     classes: Record<string, string>
+    datacy: string
 }) => (
     <Grid item xs={12} sm={3} className={classes.headerItem}>
-        <Button className={classes.button} variant="contained" onClick={onClick}>
+        <Button 
+            data-cy={datacy} 
+            className={classes.button} 
+            variant="contained" 
+            onClick={onClick}
+        >
             {icon} {label}
         </Button>
     </Grid>
@@ -145,12 +151,14 @@ function TVTable() {
                 <Grid className={classes.banner}>Get A bigger phone dawg</Grid>
                 <Grid container className={classes.tableHeader}>
                     <HeaderButton
+                        datacy='create-order-btn'
                         label='Create Order'
                         icon={<AddIcon />}
                         onClick={() => navigate("/create")}
                         classes={classes}
                     />
                     <HeaderButton
+                        datacy='delete-selected-btn'
                         label='Delete Selected'
                         icon={<DeleteIcon />}
                         onClick={handleDeleteOrders}
@@ -158,6 +166,7 @@ function TVTable() {
                     />
                     <Grid item xs={6} sm={3} className={classes.headerItem}>
                         <TextField
+                            data-cy='search-fld'
                             label="Search"
                             variant="outlined"
                             value={searchQuery}
@@ -166,6 +175,7 @@ function TVTable() {
                     </Grid>
                     <Grid item xs={6} sm={3} className={classes.headerItem}>
                         <Select
+                            data-cy='type-fltr'
                             value={orderTypeFilter}
                             onChange={(e) => setOrderTypeFilter(e.target.value as string)}
                             variant="outlined"
@@ -197,12 +207,14 @@ function TVTable() {
                             <TableRow key={index} className={classes.rowHoverEffect}>
                                 <TableCell className={classes.editCell}>
                                     <Checkbox
+                                        data-cy={`edit-chbx-${order.orderId}`}
                                         checked={selectedOrders.includes(order.orderId)}
                                         onChange={() => handleCheckboxChange(order.orderId)}
                                     />
                                 </TableCell>
                                 <TableCell className={classes.intrusiveEditCell}>
                                     <Checkbox
+                                        data-cy={`edit-chbx-${order.orderId}`}
                                         checked={selectedOrders.includes(order.orderId)}
                                         onChange={() => handleCheckboxChange(order.orderId)}
                                     />
