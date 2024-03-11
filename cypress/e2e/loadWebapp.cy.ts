@@ -1,6 +1,8 @@
+import { goHome } from "./sharedFunctions"
+
 describe('loadsHome', () => {
   it('loadsItems', () => {
-    cy.visit('localhost:3000/')
+    goHome()
 
     cy.get('[data-cy="red-tech-logo"]')
       .should('exist')

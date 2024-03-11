@@ -1,61 +1,33 @@
+import { goHome, checkHelloUserText, login, verifyPath } from "./sharedFunctions"
+
 describe('updateUsername', () => {
   it('updatesUsernameAndRedirectsToHome', () => {
-    cy.visit('http://localhost:3000/')
+    goHome()
+    checkHelloUserText("Guest")
 
-    cy.get('[data-cy="hello-user-txt"]')
-      .should('exist')
-      .should('have.text', 'Hello Guest')
+    cy.get('[data-cy="update-user-btn"]').click()
 
-    cy.get('[data-cy="update-user-btn"]')
-      .click()
-
-    const newUsername = 'testUser'
-
-    cy.get('[data-cy="username-fld"]')
-      .should('exist')
-      .type(newUsername)
-
-    cy.get('[data-cy="user-submit-btn"]').click()
-
-    cy.url().should('eq', 'http://localhost:3000/')
-
-    cy.get('[data-cy="hello-user-txt"]')
-      .should('exist')
-      .should('have.text', 'Hello testUser')
+    login('testUser')
+    verifyPath('/')
+    checkHelloUserText("testUser")
   }),
 
-  it('redirectsToSigninIfNotLoggedIn', () => {
-    cy.visit('localhost:3000/')
+  it('createRedirectsToSigninIfNotLoggedIn', () => {
+    goHome()
+    checkHelloUserText("Guest")
 
-    cy.get('[data-cy="hello-user-txt"]')
-      .should('exist')
-      .should('have.text', 'Hello Guest')
+    cy.get('[data-cy="create-order-btn"]').click()
 
-    cy.get('[data-cy="create-order-btn"]')
-      .click()
-
-    cy.url().should('eq', 'http://localhost:3000/signin')
+    verifyPath('/signin')
   }),
 
   it('updatesUsernameAndRedirectsToCreate', () => {
-    cy.visit('http://localhost:3000/')
+    goHome()
 
-    cy.get('[data-cy="create-order-btn"]')
-      .click()
+    cy.get('[data-cy="create-order-btn"]').click()
 
-    const newUsername = 'testUser2'
-
-    cy.get('[data-cy="username-fld"]')
-      .should('exist')
-      .type(newUsername)
-
-    cy.get('[data-cy="user-submit-btn"]').click()
-
-    cy.url().should('eq', 'http://localhost:3000/create')
-
-    cy.get('[data-cy="hello-user-txt"]')
-      .should('exist')
-      .should('have.text', 'Hello testUser2')
+    login('testUser2')
+    verifyPath('/create')
+    checkHelloUserText("testUser2")
   })
-
 })

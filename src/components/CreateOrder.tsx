@@ -88,6 +88,7 @@ function CreateOrder() {
             <form className={classes.form} onSubmit={handleSubmit}>
                 <Typography variant="h5">Create New Order</Typography>
                 <TextField
+                    data-cy='customer-fld'
                     label="Customer Name"
                     variant="outlined"
                     fullWidth
@@ -97,6 +98,7 @@ function CreateOrder() {
                 />
                 <TextField
                     select
+                    data-cy='order-type-select'
                     label="Order Type"
                     variant="outlined"
                     fullWidth
@@ -105,12 +107,17 @@ function CreateOrder() {
                     margin="normal"
                 >
                     {Object.values(OrderTypeEnum).map((type) => (
-                        <MenuItem key={type} value={type}>
+                        <MenuItem 
+                            data-cy={`value-${type}`} 
+                            key={type} 
+                            value={type}
+                        >
                             {type}
                         </MenuItem>
                     ))}
                 </TextField>
                 <Button
+                    data-cy='order-submit-btn'
                     type="submit"
                     variant="contained"
                     color="primary"
@@ -119,6 +126,7 @@ function CreateOrder() {
                     Submit
                 </Button>
                 <Button
+                    data-cy='save-draft-btn'
                     variant="contained"
                     color="primary"
                     className={classes.button}
