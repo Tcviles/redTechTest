@@ -235,7 +235,7 @@ function TVTable() {
                                 </TableCell>
                                 <TableCell className={classes.separatedCell}>{order.orderType}</TableCell>
                                 <TableCell className={classes.separatedCell}>{order.customerName}</TableCell>
-                                <TableCell className={classes.editCell}>
+                                <TableCell data-cy={`update-btn`} className={classes.editCell}>
                                     <Button onClick={() => navigate(`/update/${order.orderId}`)}>
                                         <EditIcon />
                                     </Button>

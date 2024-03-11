@@ -1,12 +1,10 @@
-import { goHome, checkHelloUserText, login, verifyPath } from "./sharedFunctions"
+import { goHome, checkHelloUserText, login, verifyPath, clickUpdateUser, clickCreateOrder } from "./sharedFunctions"
 
 describe('updateUsername', () => {
   it('updatesUsernameAndRedirectsToHome', () => {
     goHome()
     checkHelloUserText("Guest")
-
-    cy.get('[data-cy="update-user-btn"]').click()
-
+    clickUpdateUser()
     login('testUser')
     verifyPath('/')
     checkHelloUserText("testUser")
@@ -15,17 +13,13 @@ describe('updateUsername', () => {
   it('createRedirectsToSigninIfNotLoggedIn', () => {
     goHome()
     checkHelloUserText("Guest")
-
-    cy.get('[data-cy="create-order-btn"]').click()
-
+    clickCreateOrder()
     verifyPath('/signin')
   }),
 
   it('updatesUsernameAndRedirectsToCreate', () => {
     goHome()
-
-    cy.get('[data-cy="create-order-btn"]').click()
-
+    clickCreateOrder()
     login('testUser2')
     verifyPath('/create')
     checkHelloUserText("testUser2")

@@ -81,6 +81,7 @@ function UpdateOrder() {
             <form className={classes.form} onSubmit={handleSubmit}>
                 <Typography variant="h5">Update Order</Typography>
                 <TextField
+                    data-cy='customer-fld'
                     label="Customer Name"
                     variant="outlined"
                     fullWidth
@@ -90,6 +91,7 @@ function UpdateOrder() {
                 />
                 <TextField
                     select
+                    data-cy='order-type-select'
                     label="Order Type"
                     variant="outlined"
                     fullWidth
@@ -103,7 +105,13 @@ function UpdateOrder() {
                         </MenuItem>
                     ))}
                 </TextField>
-                <Button type="submit" variant="contained" color="primary" className={classes.button}>
+                <Button
+                    data-cy='update-order-btn'
+                    type="submit" 
+                    variant="contained" 
+                    color="primary" 
+                    className={classes.button}
+                >
                     Update
                 </Button>
             </form>
