@@ -179,9 +179,14 @@ function TVTable() {
                             onChange={(e) => setOrderTypeFilter(e.target.value as string)}
                             variant="outlined"
                         >
-                            <MenuItem value="All Types">All Types</MenuItem>
+                            <MenuItem
+                                data-cy={`value-all-types`} value="All Types">All Types</MenuItem>
                             {Object.values(OrderTypeEnum).map((type) => (
-                                <MenuItem key={type} value={type}>
+                                <MenuItem
+                                    data-cy={`value-${type}`}
+                                    key={type}
+                                    value={type}
+                                >
                                     {type}
                                 </MenuItem>
                             ))}

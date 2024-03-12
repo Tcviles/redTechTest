@@ -1,5 +1,5 @@
 import { OrderTypeEnum } from "../../src/utils/types"
-import { goHome, checkHelloUserText, login, verifyPath, updateOrder, createOrder, verifyOrderOnTable, deleteOrder, clickUpdateUser, clickCreateOrder } from "./sharedFunctions"
+import { goHome, checkHelloUserText, login, verifyPath, updateOrder, createOrder, verifyOrderOnTable, deleteOrder, localNav } from "./sharedFunctions"
 
 describe('updateOrder', () => {
   it('createsOrderForUpdate', () => {
@@ -11,11 +11,11 @@ describe('updateOrder', () => {
     const orderType2 = OrderTypeEnum.saleOrder
 
     goHome()
-    clickUpdateUser()
+    localNav('updateUser')
     login(userName)
     verifyPath(`/`)
     checkHelloUserText(userName)
-    clickCreateOrder()
+    localNav('createOrder')
     createOrder(customer, orderType)
     verifyOrderOnTable(userName, customer, orderType)
     cy.get('tbody')

@@ -4,67 +4,67 @@ export const goHome = () => {
     cy.visit('http://localhost:3000/')
 }
 
-export const clickHome = () => {
-    cy.get('[data-cy="red-tech-logo"]').click()
+export const clickButton = (dataCy: string) => {
+    cy.get(`[data-cy="${dataCy}"]`).click()
 }
 
-export const clickCreateOrder = () => {
-    cy.get('[data-cy="create-order-btn"]').click()
-}
-
-export const clickUpdateUser = () => {
-    cy.get('[data-cy="update-user-btn"]').click()
+export const localNav = (page: string) => {
+    switch (page) {
+        case "home": clickButton('red-tech-logo')
+            break
+        case "createOrder": clickButton('create-order-btn')
+            break
+        case "updateUser": clickButton('update-user-btn')
+            break
+        default:
+            break
+    }
 }
 
 export const login = (username: string) => {
-    cy.get('[data-cy="username-fld"]')
-        .should('exist')
-        .type(username)
-
-    cy.get('[data-cy="user-submit-btn"]').click()
+    cy.get('[data-cy="username-fld"]').type(username)
+    clickButton('user-submit-btn')
 }
 
 export const populateOrderForm = (customer: string, orderType: OrderTypeEnum) => {
-    cy.get('[data-cy="customer-fld"]')
-        .should('exist')
-        .type(customer)
+    cy.get('[data-cy="customer-fld"]').type(customer)
+    clickButton('order-type-select')
+    clickButton(`value-${orderType}`)
+}
 
-    cy.get('[data-cy="order-type-select"]')
-        .should('exist')
-        .click()
+export const updateSearch = (customer: string) => {
+    cy.get('[data-cy="search-fld"]').clear().type(customer)
+}
 
-    cy.get(`[data-value="${orderType}"]`)
-        .should('exist')
-        .click()
+export const updateTypeFilter = (orderType: OrderTypeEnum | "all-types") => {
+    clickButton('type-fltr')
+    clickButton(`value-${orderType}`)
 }
 
 export const createDraft = (customer: string, orderType: OrderTypeEnum) => {
     populateOrderForm(customer, orderType)
-
-    cy.get('[data-cy="save-draft-btn"]').click()
+    clickButton('save-draft-btn')
 }
 
 export const createOrder = (customer: string, orderType: OrderTypeEnum) => {
     populateOrderForm(customer, orderType)
-
-    cy.get('[data-cy="order-submit-btn"]').click()
+    clickButton('order-submit-btn')
 }
 
 export const verifyOrderOnTable = (userName: string, customer: string, orderType: OrderTypeEnum) => {
+    localNav('home')
     cy.get('tbody')
-        .contains('tr', userName)
+        .contains('tr', customer)
         .should('contain', userName)
         .should('contain', orderType)
         .should('contain', customer)
-        .should('exist')
 }
 
-export const verifyOrderNotOnTable = (userName: string, customer: string, orderType: OrderTypeEnum) => {
-    clickHome()
+export const verifyOrderNotOnTable = (customer: string) => {
+    localNav('home')
     cy.get('tbody')
         .should('not.contain', customer)
-        .should('not.contain', orderType)
-};
+}
 
 export const verifyDraft = (customer: string, orderType: OrderTypeEnum) => {
     cy.get('[data-cy="customer-fld"]')
@@ -85,27 +85,33 @@ export const deleteOrder = (userName: string, customer: string, orderType: Order
         .should('contain', orderType)
         .find('input[type="checkbox"]')
         .check({ force: true })
+    clickButton('delete-selected-btn')
+    cy.wait(500)
+}
 
-    cy.get('[data-cy="delete-selected-btn"]').click()
-
+export const deleteOrders = (ordersToDelete: {userName: string, customer: string, orderType: OrderTypeEnum}[]) => {
+    ordersToDelete.forEach(order => {
+        cy.get('tbody')
+            .contains('tr', order.customer)
+            .should('contain', order.userName)
+            .should('contain', order.orderType)
+            .find('input[type="checkbox"]')
+            .check({ force: true })
+    })
+    clickButton('delete-selected-btn')
     cy.wait(500)
 }
 
 export const updateOrder = (customer: string, orderType: OrderTypeEnum) => {
     populateOrderForm(customer, orderType)
-
-    cy.get('[data-cy="update-order-btn"]').click()
-
+    clickButton('update-order-btn')
     cy.wait(500)
 }
-
 
 export const verifyPath = (path: string) => {
     cy.url().should('eq', `http://localhost:3000${path}`)
 }
 
 export const checkHelloUserText = (username: string) => {
-    cy.get('[data-cy="hello-user-txt"]')
-        .should('exist')
-        .should('have.text', `Hello ${username}`)
+    cy.get('[data-cy="hello-user-txt"]').should('have.text', `Hello ${username}`)
 }

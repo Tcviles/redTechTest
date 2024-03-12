@@ -100,7 +100,11 @@ function UpdateOrder() {
                     margin="normal"
                 >
                     {Object.values(OrderTypeEnum).map((type) => (
-                        <MenuItem key={type} value={type}>
+                        <MenuItem
+                            data-cy={`value-${type}`} 
+                            key={type} 
+                            value={type}
+                        >
                             {type}
                         </MenuItem>
                     ))}

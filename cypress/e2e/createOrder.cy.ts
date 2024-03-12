@@ -1,5 +1,5 @@
 import { OrderTypeEnum } from "../../src/utils/types"
-import { goHome, checkHelloUserText, login, verifyPath, createOrder, verifyOrderOnTable, deleteOrder, createDraft, verifyOrderNotOnTable, clickCreateOrder, verifyDraft } from "./sharedFunctions"
+import { goHome, checkHelloUserText, login, verifyPath, createOrder, verifyOrderOnTable, deleteOrder, createDraft, verifyOrderNotOnTable, verifyDraft, localNav } from "./sharedFunctions"
 
 describe('createOrder', () => {
   it('createsNewOrder', () => {
@@ -8,7 +8,7 @@ describe('createOrder', () => {
     const orderType = OrderTypeEnum.purchaseOrder
 
     goHome()
-    clickCreateOrder()
+    localNav('createOrder')
     login(userName)
     verifyPath('/create')
     checkHelloUserText(userName)
@@ -23,13 +23,13 @@ describe('createOrder', () => {
     const orderType = OrderTypeEnum.transferOrder
 
     goHome()
-    clickCreateOrder()
+    localNav('createOrder')
     login(userName)
     verifyPath('/create')
     checkHelloUserText(userName)
     createDraft(customer, orderType)
-    verifyOrderNotOnTable(userName, customer, orderType)
-    clickCreateOrder()
+    verifyOrderNotOnTable(customer)
+    localNav('createOrder')
     verifyDraft(customer, orderType)
   })
 })

@@ -1,10 +1,10 @@
-import { goHome, checkHelloUserText, login, verifyPath, clickUpdateUser, clickCreateOrder } from "./sharedFunctions"
+import { goHome, checkHelloUserText, login, verifyPath, localNav } from "./sharedFunctions"
 
 describe('updateUsername', () => {
   it('updatesUsernameAndRedirectsToHome', () => {
     goHome()
     checkHelloUserText("Guest")
-    clickUpdateUser()
+    localNav('updateUser')
     login('testUser')
     verifyPath('/')
     checkHelloUserText("testUser")
@@ -13,13 +13,13 @@ describe('updateUsername', () => {
   it('createRedirectsToSigninIfNotLoggedIn', () => {
     goHome()
     checkHelloUserText("Guest")
-    clickCreateOrder()
+    localNav('createOrder')
     verifyPath('/signin')
   }),
 
   it('updatesUsernameAndRedirectsToCreate', () => {
     goHome()
-    clickCreateOrder()
+    localNav('createOrder')
     login('testUser2')
     verifyPath('/create')
     checkHelloUserText("testUser2")
