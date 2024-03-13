@@ -14,17 +14,6 @@ const useStyles = tss.create({
     table: {
         background: 'white',
     },
-    banner: {
-        background: 'Red',
-        color: 'white',
-        fontSize: '24px',
-        textAlign: 'center',
-        position: 'sticky',
-
-        '@media (min-width: 400px)': {
-            display: 'none',
-        },
-    },
     tableHeader: {
         display: 'flex',
         justifyContent: 'space-between',
@@ -147,7 +136,6 @@ function TVTable() {
     return (
         <div>
             <Grid className={classes.table}>
-                <Grid className={classes.banner}>Get A bigger phone dawg</Grid>
                 <Grid container className={classes.tableHeader}>
                     <HeaderButton
                         datacy='create-order-btn'
